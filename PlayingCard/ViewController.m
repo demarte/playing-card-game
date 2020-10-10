@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "Deck.h"
 #import "PlayingCardDeck.h"
 #import "Card.h"
 
@@ -23,10 +22,13 @@
 
 - (Deck *)deck
 {
-    if (!_deck) {
-        _deck = [[PlayingCardDeck alloc] init];
-    }
+    if (!_deck) _deck = [self createDeck];
     return _deck;
+}
+
+- (PlayingCardDeck *) createDeck
+{
+    return [[PlayingCardDeck alloc] init];
 }
 
 - (void) setFlipCount:(int)flipCount
@@ -42,10 +44,9 @@
         [sender setBackgroundImage:[UIImage imageNamed:@"cardbackground"] forState:UIControlStateNormal];
         [sender setTitle:@"" forState:UIControlStateNormal];
     } else {
-        [sender setBackgroundImage:[UIImage imageNamed:@"cardfront"] forState:UIControlStateNormal];
-        
         Card *card = [self.deck drawRandomCard];
-        [sender setTitle: [NSString stringWithFormat:@"%@", card.contents] forState:UIControlStateNormal];
+        [sender setBackgroundImage:[UIImage imageNamed:@"cardfront"] forState:UIControlStateNormal];
+        [sender setTitle:card.contents forState:UIControlStateNormal];
     }
     
     self.flipCount++;
